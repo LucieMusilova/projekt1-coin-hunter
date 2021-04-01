@@ -22,10 +22,12 @@ let panacek = {
 let mince = {
   element: document.getElementById("mince"),
   x: Math.floor(Math.random()* (window.innerWidth - 36)),
-  y: Math.floor(Math.random()* (window.innerHeight -36)), 
+  y: Math.floor(Math.random()* (window.innerHeight - 36)), 
   sirka: 36,
   vyska: 36,
+  hodnota: 1
 }
+
 
 // začátek hry
 window.addEventListener("load", startHry);
@@ -33,6 +35,7 @@ window.addEventListener("load", startHry);
 // vložení prvků
 function startHry() {
   umistiObjekt(panacek);
+  vyberMinci();
   umistiObjekt(mince);
 }
 
@@ -40,6 +43,24 @@ function umistiObjekt(herniObjekt) {
   herniObjekt.element.style.left = herniObjekt.x + "px";
   herniObjekt.element.style.top = herniObjekt.y + "px";
 }
+
+// nastavení obrázku mince
+function vyberMinci(){
+   let nahodna = Math.floor(Math.random() * 10 + 1);
+
+    if (nahodna >= 9){
+        mince.element.src = "obrazky/mince.png";
+        mince.hodnota = 3;
+      } else if (nahodna >= 6) {
+        mince.element.src = "obrazky/mince-stribrna.png";
+        mince.hodnota = 2;
+          } else {
+            mince.element.src = "obrazky/mince-bronzova.png";
+            mince.hodnota = 1;
+          }
+    }
+  
+
 
 // pohyb panáčka
 function pohyb(key) {
@@ -98,21 +119,24 @@ function sebraniMince (panacek, mince) {
     || mince.y + mince.vyska < panacek.y)) {
 
      hraciPole.zvukMince.play();
-     mince.x = Math.floor((Math.random()* window.innerWidth) - 36);
-     mince.y = Math.floor((Math.random()* window.innerHeight) - 36);
+     pripisBody();
+     mince.x = Math.floor(Math.random()* (window.innerWidth - 36));
+     mince.y = Math.floor(Math.random()* (window.innerHeight - 36));
+     vyberMinci();
      umistiObjekt(mince);
-     pripisBod();
     }
 } 
 
 // zvýšení skóre
+let finalniZvuk = false;
 
-function pripisBod() {
-  hraciPole.skore++;
+function pripisBody() {
+  hraciPole.skore += mince.hodnota;
   hraciPole.skoreElement.innerHTML = hraciPole.skore;
-
-  if (hraciPole.skore == 6) {
+  
+  if (hraciPole.skore >= 10 && !finalniZvuk) {
     hraciPole.zvukFanfara.play();
     alert("Jsi vítez! :-)");
+    finalniZvuk = true;
   }
 }
