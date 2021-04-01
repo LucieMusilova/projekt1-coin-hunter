@@ -21,6 +21,7 @@ body {
 	background-repeat: repeat;
 	background-image: url('obrazky/pozadi/geometry.png');
 
+
 	/*  vyzkoušej i jiná pozadí :)
 	background-image: url('obrazky/pozadi/round.png');
 )	background-image: url('obrazky/pozadi/whirlpool.png');
@@ -49,3 +50,4 @@ body {
 #panacek {
 	z-index: 1;
 }
+
